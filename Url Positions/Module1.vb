@@ -27,12 +27,17 @@ Module Module1
   Console.ReadLine()
   Console.WriteLine("CRAWL TEST, GET URLS")
   Console.WriteLine("first 0A appearence = " & text.IndexOf(vbLf)) '0A is the LF character that identifies an url in the crawl
-  Dim hrefRegex As New Regex("<A[^>]*?HREF\s*=\s*""([^""]+)""[^>]*?>([\s\S]*?)<\/A>", RegexOptions.IgnoreCase)
-  Dim m As Match = hrefRegex.Match(text)
-  Do While m.Success
-   Console.WriteLine("match: " & m.ToString)
+  'Dim hrefRegex As New Regex("<A[^>]*?HREF\s*=\s*""([^""]+)""[^>]*?>([\s\S]*?)<\/A>", RegexOptions.IgnoreCase) msdn regex
+  Dim otherRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
+  Dim findex, lindex As Integer
+  For Each m As Match In otherRegex.Matches(text)
+   findex = text.IndexOf(m.ToString)
+   lindex = m.ToString.Length + findex - 1
+   Console.WriteLine("match: " & m.ToString & "on position:" & findex & "-" & lindex)
+  Next
 
-  Loop
+
+
 
 
   'Dim inindex As Integer = text.IndexOf(vbLf)
