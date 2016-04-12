@@ -5,29 +5,13 @@ Imports HtmlAgilityPack
 Module Module1
 
  Sub Main()
-  Dim startindex, endindex As Integer
+
   Dim crawlpath As String
   crawlpath = "C:\Users\sestens\Downloads\project\WebCrawlCompletedMar9_2016.txt"
   Dim text As String = File.ReadAllText(crawlpath)
-  Dim htmlfile As String = "C:\Users\sestens\Downloads\project\Texas Tech University Libraries __ Home.html"
-  Dim doc As New HtmlDocument
-  doc.Load(htmlfile)
-  Dim stringtxt As String = File.ReadAllText(htmlfile) 'changing from readall(htmlfile) to readall(crawlpath)
-  For Each link As HtmlNode In doc.DocumentNode.SelectNodes("//a")
-   Console.WriteLine(link.InnerText)
-   Console.WriteLine("-")
-   If link.Attributes("href") Is Nothing Then
-    Console.WriteLine("href value was null")
-   Else
-    startindex = stringtxt.IndexOf(link.Attributes("href").Value)
-    endindex = startindex + link.Attributes("href").Value.Length - 1
-    Console.WriteLine("url =" & link.Attributes("href").Value & " located on indexes:" & startindex & "-" & endindex)
-   End If
-  Next
   Console.ReadLine()
   Console.WriteLine("CRAWL TEST, GET URLS")
   Console.WriteLine("first 0A appearence = " & text.IndexOf(vbLf)) '0A is the LF character that identifies an url in the crawl
-  'Dim hrefRegex As New Regex("<A[^>]*?HREF\s*=\s*""([^""]+)""[^>]*?>([\s\S]*?)<\/A>", RegexOptions.IgnoreCase) msdn regex
   Dim otherRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
   Dim findex, lindex As Integer
   For Each m As Match In otherRegex.Matches(text)
@@ -35,8 +19,6 @@ Module Module1
    lindex = m.ToString.Length + findex - 1
    Console.WriteLine("match: " & m.ToString & "on position:" & findex & "-" & lindex)
   Next
-
-
 
 
 
