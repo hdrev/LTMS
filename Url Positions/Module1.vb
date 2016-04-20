@@ -8,21 +8,14 @@ Module Module1
   Dim crawlpath As String
   crawlpath = "C:\Users\sestens\Downloads\project\WebCrawlCompletedMar9_2016.txt"
   Dim text As String = File.ReadAllText(crawlpath)
-
+  Dim taglesstxt As String = StripTags(text)
   Dim otherRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
-  'Dim findex, lindex As Integer
-  'For Each m As Match In otherRegex.Matches(text)
-  'findex = text.IndexOf(m.ToString)
-  'lindex = m.ToString.Length + findex - 1
-  'Console.WriteLine("match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
-  'Next
-
-  Dim tagless As String = StripTags(text)
-  While tagless.IndexOf(vbLf) <> -1
-
-
-  End While
-
+  Dim findex, lindex As Integer
+  For Each m As Match In otherRegex.Matches(taglesstxt)
+   findex = text.IndexOf(m.ToString)
+   lindex = m.ToString.Length + findex - 1
+   Console.WriteLine("match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
+  Next
   Console.ReadLine()
  End Sub
 
