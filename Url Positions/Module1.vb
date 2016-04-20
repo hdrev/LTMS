@@ -10,11 +10,13 @@ Module Module1
   Dim text As String = File.ReadAllText(crawlpath)
   Dim taglesstxt As String = StripTags(text)
   Dim otherRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
-  Dim findex, lindex As Integer
+  Dim findex, lindex, count As Integer
+  count = 0
   For Each m As Match In otherRegex.Matches(taglesstxt)
-   findex = text.IndexOf(m.ToString)
+   count = count + 1
+   findex = taglesstxt.IndexOf(m.ToString)
    lindex = m.ToString.Length + findex - 1
-   Console.WriteLine("match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
+   Console.WriteLine(count & " match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
   Next
   Console.ReadLine()
  End Sub
