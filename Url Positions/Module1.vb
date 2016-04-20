@@ -19,6 +19,16 @@ Module Module1
    Console.WriteLine(count & " match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
   Next
   Console.ReadLine()
+
+  Console.WriteLine("count of vbLF test")
+  Dim lf As New Regex(vbLf)
+  Dim c As Integer = 0
+  For Each i As Match In lf.Matches(taglesstxt)
+   c = c + 1
+  Next
+  Console.WriteLine("There where {0} matches", c)
+  Console.ReadLine()
+
  End Sub
 
  Function StripTags(ByVal html As String) As String
