@@ -30,7 +30,10 @@ Module Module1
   End While
   Console.ReadLine()
 
-
+  Dim keep, discard, stopWords As FileStream
+  keep = New FileStream("C:\Users\sestens\Downloads\project\keep.txt", FileMode.Create, FileAccess.ReadWrite)
+  discard = New FileStream("C:\Users\sestens\Downloads\project\discard.txt", FileMode.Create, FileAccess.ReadWrite)
+  stopWords = New FileStream("C:\Users\sestens\Downloads\project\stopwords_en.txt", FileMode.Open, FileAccess.Read)
 
 
  End Sub
