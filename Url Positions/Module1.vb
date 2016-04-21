@@ -5,29 +5,33 @@ Module Module1
 
  Sub Main()
 
-  Dim crawlpath As String
-  crawlpath = "C:\Users\sestens\Downloads\project\WebCrawlCompletedMar9_2016.txt"
-  Dim text As String = File.ReadAllText(crawlpath)
+  Dim crawlfilepath As String
+  crawlfilepath = "C:\Users\sestens\Downloads\project\WebCrawlCompletedMar9_2016.txt"
+  Dim text As String = File.ReadAllText(crawlfilepath)
   Dim taglesstxt As String = StripTags(text)
-  Dim otherRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
-  Dim findex, lindex, count As Integer
-  count = 0
-  For Each m As Match In otherRegex.Matches(taglesstxt)
-   count = count + 1
-   findex = taglesstxt.IndexOf(m.ToString)
-   lindex = m.ToString.Length + findex - 1
-   Console.WriteLine(count & " match: " & m.ToString & " on position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
-  Next
+  Dim allUrlsRegex As New Regex("((https?|ftp|file)\://|www.)[A-Za-z0-9\.\-]+(/[A-Za-z0-9\?\&\=;\+!'\(\)\*\-\._~%]*)*", RegexOptions.IgnoreCase)
+  Dim vi, i, findex, lindex, lineFeedsCount As Integer
+  Dim url As String = allUrlsRegex.Match(text).ToString
+  Dim textcopy As String = text
+  i = 1
+  findex = text.IndexOf(url)
+  lindex = url.Length + findex - 1
+  Console.WriteLine(i & " match: " & url & " position:" & findex & "-" & lindex & " date:" & Today & " time:" & TimeOfDay)
+  lineFeedsCount = countLf(text)
+  While i <> lineFeedsCount
+   vi = text.IndexOf(vbLf)
+   url = allUrlsRegex.Match(text, vi).ToString
+   text = text.Substring(vi + 1)
+   i = i + 1
+   findex = textcopy.IndexOf(url)
+   lindex = url.Length + findex - 1
+   Console.WriteLine(i & " match: " & url & " position:" & findex & "-" & lindex & " date:" & Today & " time: " & TimeOfDay)
+
+  End While
   Console.ReadLine()
 
-  Console.WriteLine("count of vbLF test")
-  Dim lf As New Regex(vbLf)
-  Dim c As Integer = 0
-  For Each i As Match In lf.Matches(taglesstxt)
-   c = c + 1
-  Next
-  Console.WriteLine("There where {0} matches", c)
-  Console.ReadLine()
+
+
 
  End Sub
 
@@ -55,5 +59,15 @@ Module Module1
   html = Regex.Replace(html, "<!--[\s\S]*?-->", "")
   html = Regex.Replace(html, "<[^>]*>", "")
   Return html
+ End Function
+
+ Function countLf(text As String)
+  Dim lf As New Regex(vbLf)
+  Dim count As Integer = 0
+  For Each i As Match In lf.Matches(text)
+   count = count + 1
+  Next
+
+  Return count
  End Function
 End Module
