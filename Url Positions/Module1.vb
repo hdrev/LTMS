@@ -26,7 +26,6 @@ Module Module1
    findex = textcopy.IndexOf(url)
    lindex = url.Length + findex - 1
    Console.WriteLine(i & " match: " & url & " position:" & findex & "-" & lindex & " date:" & Today & " time: " & TimeOfDay)
-
   End While
   Console.ReadLine()
 
