@@ -29,16 +29,30 @@ Module Module1
   End While
   Console.ReadLine()
   Dim txtcopy2 As String = textcopy
+  Dim line As String
   Dim keep, discard As StreamWriter
   Dim stopWords As StreamReader
-  'keep = New StreamWriter(File.Create("C:\Users\sestens\Downloads\project\keep.txt"))
-  'discard = New StreamWriter(File.Create("C:\Users\sestens\Downloads\project\discard.txt"))
+  keep = New StreamWriter(File.Create("C:\Users\sestens\Downloads\project\keep.txt"))
+  discard = New StreamWriter(File.Create("C:\Users\sestens\Downloads\project\discard.txt"))
   stopWords = File.OpenText("C:\Users\sestens\Downloads\project\stopwords_en.txt")
+  Dim lineregex As Regex
+  Dim matches As MatchCollection
   Do While stopWords.Peek >= 0
-   taglesstxt = Regex.Replace(taglesstxt, "\b" & stopWords.ReadLine() & "\b", " ") 'remove stopwords
+   line = stopWords.ReadLine() 'read a stopword from file
+   lineregex = New Regex("\b" & line & "\b")
+   matches = lineregex.Matches(taglesstxt)
+   For Each match As Match In matches
+    discard.WriteLine(match.ToString & " length:" & match.ToString.Length & " start:" & textcopy.IndexOf(match.ToString) & " date:" & Today & " time:" & TimeOfDay) 'start position relative to textcopy
+   Next
+   taglesstxt = Regex.Replace(taglesstxt, "\b" & line & "\b", " ") 'replace stopwords with a blank space
   Loop
 
-  Console.Write(taglesstxt)
+  Dim wordregex As New Regex("\b*[ ]^*\b") 'regex to match words in strings
+  matches = wordregex.Matches(taglesstxt)
+  For Each match In matches
+   keep.WriteLine(match.ToString & " length:" & match.ToString.Length & " start:" & textcopy.IndexOf(match.ToString) & " date:" & Today & " time:" & TimeOfDay)
+  Next
+
   Console.ReadLine()
 
 
