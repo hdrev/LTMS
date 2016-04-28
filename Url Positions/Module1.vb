@@ -47,10 +47,10 @@ Module Module1
    taglesstxt = Regex.Replace(taglesstxt, "\b" & line & "\b", " ") 'replace stopwords with a blank space
   Loop
 
-  Dim wordregex As New Regex("\b*[ ]^*\b") 'regex to match words in strings
+  Dim wordregex As New Regex("\b(\S)+\b") 'regex to match words in strings
   matches = wordregex.Matches(taglesstxt)
-  For Each match In matches
-   keep.WriteLine(match.ToString & " length:" & match.ToString.Length & " start:" & textcopy.IndexOf(match.ToString) & " date:" & Today & " time:" & TimeOfDay)
+  For Each match As Match In matches
+   keep.WriteLine(match.ToString & " length:" & match.ToString.Length & " start:" & textcopy.IndexOf(match.ToString) & " date:" & Today & " time:" & TimeOfDay) 'start position relative to textcopy
   Next
 
   Console.ReadLine()
