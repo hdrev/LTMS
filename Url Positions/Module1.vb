@@ -51,6 +51,7 @@ Module Module1
   matches = wordregex.Matches(taglesstxt)
   For Each match As Match In matches
    'write word in file
+   'a match is every word that is not in the discard file and is not code
    keep.WriteLine(match.ToString & vbTab & vbTab & "length:" & match.ToString.Length & vbTab & "start:" & textcopy.IndexOf(match.ToString) & vbTab & "date:" & Today & vbTab & vbTab & "time: " & TimeOfDay) 'start position relative to textcopy
   Next
 
